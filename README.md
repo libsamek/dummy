@@ -4,11 +4,18 @@
 
 More information can be found: https://github.com/helm/helm/issues/10163
 
-Docker and kind (Kubernetes in Docker) are needed 
+`dummy.go` is a simple Go HTTP service, which takes environment variable `DUMMY_TIMEOUT`
+to define how long it will take to terminate service on SIGINT or SIGTERM.
+
+### Reproduce
+
+Docker and kind (Kubernetes in Docker) are needed.
 
 Steps to setup environment:
 ```
 docker build -t localhost:5000/dummy .
+docker push localhost:5000/dummy:latest
+
 infra/kind-with-registry.sh
 helm upgrade --install --wait dummy infra/dummy
 ```
