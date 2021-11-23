@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    {{- include "dummy.labels" . | nindent 4 }}
+  name: {{ include "dummy.fullname" . }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  updateStrategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      {{- include "dummy.selectorLabels" . | nindent 6 }}
+  serviceName: {{ include "dummy.fullname" . }}
+  template:
+    metadata:
+      labels:
+        {{- include "dummy.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: mts-app
+          env:
+            - name: DUMMY_TIMEOUT
+              value: "{{ .Values.dummy.timeout }}"
+            - name: DUMMY_VERSION
+              value: "{{ .Values.dummy.version }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: web
+              protocol: TCP
