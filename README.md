@@ -4,6 +4,8 @@
 
 More information can be found: https://github.com/helm/helm/issues/10163
 
+Hypothesis is that this happens for services (containers), which do not terminate instantly. 
+
 `dummy.go` is a simple Go HTTP service, which takes environment variable `DUMMY_TIMEOUT`
 to define how long it will take to terminate service on SIGINT or SIGTERM.
 
