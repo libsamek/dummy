@@ -17,7 +17,7 @@ docker build -t localhost:5000/dummy .
 docker push localhost:5000/dummy:latest
 
 infra/kind-with-registry.sh
-helm upgrade --install --wait dummy infra/dummy
+helm upgrade --debug --install --wait dummy infra/dummy
 ```
 
 Change something in `values.yaml`, eg. bump `dummy.version`.
@@ -25,5 +25,5 @@ Change something in `values.yaml`, eg. bump `dummy.version`.
 Run once again upgrade and observe behavior.
 
 ```
-helm upgrade --install --wait dummy infra/dummy
+helm upgrade --debug --install --wait dummy infra/dummy
 ```
